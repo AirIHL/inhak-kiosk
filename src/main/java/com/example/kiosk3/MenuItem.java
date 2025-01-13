@@ -11,7 +11,15 @@ public class MenuItem {
         this.describe = describe;
     }
 
-    public String getName() {return name;}
-    public double getPrice() {return price;}
-    public String getDescribe() {return describe;}
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
 }
