@@ -1,4 +1,4 @@
-package com.example.kiosk4;
+package com.example.kiosk6;
 
 public class Cart {
     private final MenuItem menuItem;

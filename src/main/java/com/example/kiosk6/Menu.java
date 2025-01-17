@@ -1,4 +1,4 @@
-package com.example.kiosk4;
+package com.example.kiosk6;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ public class Menu {
     public List<MenuItem> getMenuItems() {
         return menuItems;
     }
+
     public List<Cart> getCarts() {
         return carts;
     }

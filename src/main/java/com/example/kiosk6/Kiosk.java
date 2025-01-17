@@ -1,4 +1,4 @@
-package com.example.kiosk4;
+package com.example.kiosk6;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +46,16 @@ public class Kiosk {
                     }
 
                     MenuItem selectedItem = selectedMenu.getMenuItems().get(menuChoice - 1);
+                    System.out.printf("선택한 메뉴: %-15s | W%-4.1f | %s%n", selectedItem.getName(), selectedItem.getPrice(), selectedItem.getDescribe());
+                    System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+                    System.out.println("1. 확인          2. 취소");
+
+                    int inCart = scanner.nextInt();
+                    if (inCart == 2)
+                        continue;
+                    else if (inCart != 1)
+                        throw new IllegalArgumentException("잘못된 입력입니다.");
+
                     System.out.println("수량을 입력하세요: ");
                     int quantity = scanner.nextInt();
 
@@ -54,7 +64,50 @@ public class Kiosk {
                     }
 
                     addToCart(selectedItem, quantity);
-                    showCart();
+
+                    System.out.println(selectedItem.getName() + " " + quantity + "개가 장바구니에 추가되었습니다.");
+
+                    if (!carts.isEmpty()) {
+                        System.out.println("[ ORDER MENU ]");
+                        System.out.println("4. Orders");
+                        System.out.println("5. Cancel");
+                        int orderDecision = scanner.nextInt();
+                        if (orderDecision == 4) {
+                            System.out.println("아래와 같이 주문하시겠습니까?");
+                            System.out.println();
+                            showCart();
+                            System.out.println();
+                            totalPrice();
+                            System.out.println();
+                            System.out.println("1. 주문          2. 메뉴판");
+
+                            int finalDecision = scanner.nextInt();
+
+                            if (finalDecision == 1) {
+
+                                System.out.println();
+                                double totalPrice = 0;
+
+                                for (Cart item : carts) {
+                                    MenuItem menuItem = item.getMenuItem();
+                                    totalPrice += item.getTotalPrice();
+                                }
+                                System.out.println("주문이 완료되었습니다. 금액은 W " + totalPrice + " 입니다.");
+                                System.out.println();
+                                System.out.println();
+                                carts.clear();
+                                continue;
+                            } else if (finalDecision == 2) {
+                                continue;
+                            } else
+                                throw new IllegalArgumentException("잘못된 입력입니다.");
+
+                        } else if (orderDecision == 5) {
+                            System.out.println("주문을 취소합니다.");
+                            continue;
+                        } else
+                            throw new IllegalArgumentException("잘못된 입력입니다.");
+                    }
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("오류: " + e.getMessage());
@@ -86,21 +139,23 @@ public class Kiosk {
 
     private void showCart() {
         System.out.println("\n[ 장바구니 ]");
-        if (carts.isEmpty()) {
-            System.out.println("장바구니가 비어있습니다.");
-            return;
+        for (Cart item : carts) {
+            MenuItem menuItem = item.getMenuItem();
+            System.out.printf("%-15s | W%-4.1f | %s - %d개%n", menuItem.getName(), menuItem.getPrice(), menuItem.getDescribe(), item.getQuantity());
         }
+    }
+
+    private void totalPrice() {
+
+        System.out.println("[ TOTAL ]");
 
         double totalPrice = 0;
         for (Cart item : carts) {
             MenuItem menuItem = item.getMenuItem();
-            System.out.printf("%s - %d개 | W%.1f%n",
-                    menuItem.getName(),
-                    item.getQuantity(),
-                    item.getTotalPrice());
             totalPrice += item.getTotalPrice();
         }
-        System.out.printf("\n총 금액: W%.1f%n", totalPrice);
+        System.out.printf("W%.1f%n", totalPrice);
         System.out.println();
     }
+
 }
