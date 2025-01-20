@@ -29,13 +29,14 @@ public class Kiosk {
         while (running) {
             try {
 
-                showMainMenu();
+                showMainMenu();     // 메인메뉴 호출
                 System.out.println();
 
-                int choice = scanner.nextInt();
+                int choice = scanner.nextInt();     // 카테고리 선택
 
                 System.out.println();
 
+                // 입력받은 숫자를 토대로 어떤 작업을 수행할지 if 문으로 판단
                 if (choice == 0) {
                     running = false;
                     continue;
@@ -56,6 +57,7 @@ public class Kiosk {
                         throw new IllegalArgumentException("잘못된 메뉴 항목 번호입니다.");
                     }
 
+                    // 선택한 메뉴를 보여줌
                     MenuItem selectedItem = selectedMenu.getMenuItems().get(menuChoice - 1);
                     System.out.println();
                     System.out.printf("선택한 메뉴: %-15s | W%-4.1f | %s%n", selectedItem.getName(), selectedItem.getPrice(), selectedItem.getDescribe());
@@ -63,12 +65,15 @@ public class Kiosk {
                     System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
                     System.out.println("1. 확인          2. 취소");
 
+                    //  메뉴를 장바구니에 추가 할지 입력받고 그 값에 따라 수행
                     int inCart = scanner.nextInt();
                     if (inCart == 2)
                         continue;
                     else if (inCart != 1)
                         throw new IllegalArgumentException("잘못된 입력입니다.");
 
+
+                    // 수량 입력 및 오류 출력
                     System.out.println();
                     System.out.println("수량을 입력하세요: ");
                     int quantity = scanner.nextInt();
@@ -83,6 +88,7 @@ public class Kiosk {
                     System.out.println(selectedItem.getName() + " " + quantity + "개가 장바구니에 추가되었습니다.");
                     System.out.println();
 
+                    //  장바구니에 메뉴가 있으면 Order 출력
                     if (!carts.isEmpty()) {
                         System.out.println("[ ORDER MENU ]");
                         System.out.println();
@@ -100,10 +106,12 @@ public class Kiosk {
                             System.out.println("1. 주문          2. 메뉴판");
                             System.out.println();
 
+                            //  메뉴를 더 추가할지 아니면 이대로 주문할지 입력 받음
                             int finalDecision = scanner.nextInt();
 
                             if (finalDecision == 1) {
 
+                                //  할인정보 입력 받음
                                 System.out.println();
                                 System.out.println("할인 정보를 입력해주세요.");
                                 System.out.println();
